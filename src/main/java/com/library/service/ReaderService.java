@@ -39,11 +39,17 @@ public class ReaderService {
         return true;
     }
 
-    /** 更新读者信息 */
+    /** 更新读者信息（只更新非null字段，避免覆盖未传的字段） */
     public boolean updateReader(Reader updated) {
         Reader existing = readerDao.findById(updated.getReaderId());
         if (existing == null) return false;
-        readerDao.update(updated);
+        if (updated.getName() != null) existing.setName(updated.getName());
+        if (updated.getDepartment() != null) existing.setDepartment(updated.getDepartment());
+        if (updated.getReaderType() != null) existing.setReaderType(updated.getReaderType());
+        if (updated.getPhone() != null) existing.setPhone(updated.getPhone());
+        if (updated.getPassword() != null) existing.setPassword(updated.getPassword());
+        // currentBorrows 只能通过借还书操作修改，不允许手动设置
+        readerDao.update(existing);
         return true;
     }
 

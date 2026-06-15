@@ -45,14 +45,6 @@ function renderBookTable(books) {
     `).join('');
 }
 
-/* ========== 弹窗管理 ========== */
-function openModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
-}
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('active');
-}
-
 /** 新增图书 */
 async function addBook() {
     const book = {
@@ -89,7 +81,7 @@ async function addBook() {
 /** 修改图书 */
 async function editBook(isbn) {
     try {
-        const result = await API.get('/books/' + isbn);
+        const result = await API.get('/books/' + encodeURIComponent(isbn));
         if (result.success && result.data) {
             const b = result.data;
             document.getElementById('editIsbn').value = b.isbn;

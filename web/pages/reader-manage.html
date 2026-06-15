@@ -18,9 +18,6 @@
         <section class="card">
             <div class="card-header">
                 <h2>读者管理</h2>
-                <div style="display:flex;gap:8px;">
-                    <button class="btn btn-primary" id="addReaderBtn" onclick="openModal('regReaderModal')">添加读者</button>
-                </div>
             </div>
             <div class="card-body">
                 <div class="search-bar">
@@ -49,30 +46,6 @@
             </div>
         </section>
 
-        <!-- 弹窗省略，同之前 -->
-        <div class="modal-overlay" id="regReaderModal">
-            <div class="modal">
-                <h3>添加读者</h3>
-                <form onsubmit="event.preventDefault(); registerReader();">
-                    <div class="form-group"><label>读者ID *</label><input type="text" id="regReaderId"></div>
-                    <div class="form-group"><label>姓名 *</label><input type="text" id="regName"></div>
-                    <div class="form-group"><label>院系</label><input type="text" id="regDepartment"></div>
-                    <div class="form-group">
-                        <label>类型</label>
-                        <select id="regType">
-                            <option value="STUDENT">学生</option>
-                            <option value="TEACHER">教师</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>电话</label><input type="text" id="regPhone"></div>
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-outline" onclick="closeModal('regReaderModal')">取消</button>
-                        <button type="submit" class="btn btn-primary">确认添加</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <div class="modal-overlay" id="editReaderModal">
             <div class="modal">
                 <h3>编辑读者</h3>
@@ -83,6 +56,7 @@
                     <div class="form-group"><label>类型</label><select id="editReaderType"><option value="STUDENT">学生</option><option value="TEACHER">教师</option></select></div>
                     <div class="form-group"><label>电话</label><input type="text" id="editReaderPhone"></div>
                     <div class="form-actions">
+                        <button type="button" class="btn btn-danger" onclick="resetReaderPassword()">重置密码</button>
                         <button type="button" class="btn btn-outline" onclick="closeModal('editReaderModal')">取消</button>
                         <button type="submit" class="btn btn-primary">保存修改</button>
                     </div>
@@ -99,9 +73,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             initPage('readers');
-            if (!isAdmin()) {
-                document.getElementById('addReaderBtn').style.display = 'none';
-            }
             searchReaders();
         });
     </script>

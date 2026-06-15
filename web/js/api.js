@@ -83,6 +83,16 @@ function showToast(message, type) {
 }
 
 /**
+ * 弹窗管理
+ */
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+}
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+/**
  * 格式化日期（yyyy-MM-dd -> 更友好的显示）
  */
 function formatDate(dateStr) {
