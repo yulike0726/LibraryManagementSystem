@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>软件工程课程设计报告 — 图书管理系统</title>
+<style>
+  @page { size: A4; margin: 2.54cm 3.18cm 2.54cm 3.18cm; }
+  body {
+    font-family: "SimSun", "宋体", serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 20px 40px;
+  }
+  h1, h2, h3, h4 { font-family: "SimHei", "黑体", sans-serif; }
+  .cover { text-align: center; page-break-after: always; padding-top: 80px; }
+  .cover .school { font-size: 22pt; font-weight: bold; font-family: "SimHei", sans-serif; margin-bottom: 6px; }
+  .cover .dept { font-size: 18pt; font-family: "SimHei", sans-serif; margin-bottom: 6px; }
+  .cover .report-title { font-size: 22pt; font-weight: bold; font-family: "SimHei", sans-serif; margin: 16px 0; }
+  .cover table { margin: 60px auto; border-collapse: collapse; }
+  .cover table td { padding: 10px 20px; font-size: 14pt; font-family: "SimSun", serif; }
+  .cover table .label { text-align: right; width: 120px; }
+  .cover table .value { text-align: center; border-bottom: 1px solid #000; min-width: 180px; }
+  .cover .date { margin-top: 40px; font-size: 14pt; }
+  .task-book { page-break-after: always; }
+  .task-book h2 { text-align: center; font-size: 16pt; margin-bottom: 20px; }
+  .task-book table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .task-book table td { border: 1px solid #000; padding: 8px 10px; font-size: 11pt; }
+  .task-book table .label { background: #f5f5f5; width: 100px; font-weight: bold; }
+  .task-book .content-block { border: 1px solid #000; padding: 12px; margin-bottom: 16px; min-height: 120px; }
+  .task-book .content-block h4 { margin: 0 0 8px 0; font-size: 12pt; }
+  .review-table { page-break-after: always; }
+  .review-table h2 { text-align: center; font-size: 16pt; margin-bottom: 16px; }
+  .review-table table { width: 100%; border-collapse: collapse; }
+  .review-table table th, .review-table table td { border: 1px solid #000; padding: 6px 8px; font-size: 11pt; text-align: center; }
+  .review-table table th { background: #f0f0f0; }
+  .toc { page-break-after: always; }
+  .toc h2 { text-align: center; font-family: "SimHei", sans-serif; font-size: 16pt; }
+  .toc ul { list-style: none; padding: 0; }
+  .toc ul li { padding: 4px 0; font-size: 12pt; }
+  .toc ul li a { color: #000; text-decoration: none; }
+  .abstract { page-break-after: always; }
+  .abstract p, .abstract .keywords { text-indent: 2em; margin: 8px 0; }
+  h2.section { font-size: 14pt; font-family: "SimHei", sans-serif; margin-top: 24px; margin-bottom: 12px; }
+  h3.subsection { font-size: 12pt; font-family: "SimHei", sans-serif; margin-top: 16px; margin-bottom: 8px; }
+  h4.subsubsection { font-size: 12pt; font-family: "FangSong", "仿宋", serif; margin-top: 12px; margin-bottom: 6px; }
+  p { text-indent: 2em; margin: 6px 0; }
+  .english { font-family: "Times New Roman", serif; }
+  figure { text-align: center; margin: 16px 0; }
+  figure img { max-width: 100%; }
+  figcaption { font-size: 10.5pt; font-family: "SimSun", serif; margin-top: 6px; }
+  table.data { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10.5pt; }
+  table.data caption { font-size: 10.5pt; font-family: "SimSun", serif; margin-bottom: 4px; }
+  table.data thead { border-top: 1.5pt solid #000; border-bottom: 0.75pt solid #000; }
+  table.data tbody { border-bottom: 1.5pt solid #000; }
+  table.data th { padding: 6px 8px; text-align: center; font-weight: bold; }
+  table.data td { padding: 6px 8px; border-bottom: 0.5pt solid #ccc; }
+  pre.code { background: #f8f8f8; border: 1px solid #ddd; padding: 10px; font-size: 9pt; font-family: "Consolas", "Courier New", monospace; overflow-x: auto; margin: 10px 0; white-space: pre-wrap; }
+  .references p { text-indent: 0; margin: 4px 0; font-size: 10.5pt; }
+</style>
+</head>
+<body>
+
+<!-- ==================== 封面 ==================== -->
+<div class="cover">
+  <div class="school">曲 阜 师 范 大 学</div>
+  <div class="dept">软件工程课程设计报告</div>
+  <div class="report-title">图书管理系统</div>
+  <div style="font-size: 14pt; margin-top: 20px;">Library Management System</div>
+  <table>
+    <tr><td class="label">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td><td class="value">于利珂</td></tr>
+    <tr><td class="label">院&nbsp;&nbsp;&nbsp;&nbsp;系：</td><td class="value">网络空间安全学院</td></tr>
+    <tr><td class="label">专&nbsp;&nbsp;&nbsp;&nbsp;业：</td><td class="value">软件工程</td></tr>
+    <tr><td class="label">指导教师：</td><td class="value">路秀华</td></tr>
+    <tr><td class="label">职&nbsp;&nbsp;&nbsp;&nbsp;称：</td><td class="value">副教授</td></tr>
+  </table>
+  <div class="date">2024 年 6 月</div>
+</div>
+
+<!-- ==================== 任务书 ==================== -->
+<div class="task-book">
+  <h2>软件工程课程设计任务书</h2>
+  <table>
+    <tr><td class="label">课程设计题目</td><td>图书管理系统（Library Management System）</td></tr>
+    <tr><td class="label">院（系）</td><td>网络空间安全学院</td></tr>
+    <tr><td class="label">专&nbsp;&nbsp;&nbsp;&nbsp;业</td><td>软件工程</td></tr>
+    <tr><td class="label">指导教师</td><td>路秀华</td></tr>
+    <tr><td class="label">职&nbsp;&nbsp;&nbsp;&nbsp;称</td><td>副教授</td></tr>
+  </table>
+
+  <table>
+    <thead>
+      <tr><th>姓名</th><th>年级</th><th>学号</th><th>承担任务</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>于利珂</td><td>2024级</td><td>2024413595</td><td>图书管理模块（后端+前端）、系统架构设计、JSON解析器实现</td></tr>
+      <tr><td>刘洪森</td><td>2024级</td><td>2024413594</td><td>借阅管理模块（后端+前端）、排序算法实现、测试验证</td></tr>
+      <tr><td>肖景匀</td><td>2024级</td><td>2024413596</td><td>读者管理模块（后端+前端）、登录认证系统、数据模型设计</td></tr>
+    </tbody>
+  </table>
+
+  <div class="content-block">
+    <h4>一、设计内容及要求</h4>
+    <p>设计并实现一个基于 B/S 架构的图书管理系统，采用 Java 作为后端开发语言，HTML5/CSS3/JavaScript 作为前端技术，不依赖第三方框架和数据库系统，通过自实现的 JSON 解析器完成数据的文件持久化。系统需包含以下核心功能：</p>
+    <p>（1）<b>图书管理模块</b>：实现图书信息的增删改查，支持多条件检索（按书名、作者、ISBN、分类）与多字段排序（支持快速排序、归并排序、冒泡排序三种算法），提供分类管理和库存管理功能。</p>
+    <p>（2）<b>读者管理模块</b>：实现读者信息的修改、删除与查询，区分学生和教师两种读者类型并自动设置不同的借阅权限（学生最多借5本、借期30天；教师最多借10本、借期60天）。读者通过登录页自助注册，管理员在后台统一管理。</p>
+    <p>（3）<b>借阅管理模块</b>：实现借书、还书、续借操作，自动校验库存和借阅权限，计算超期天数，统计热门图书排行榜和超期未还列表，区分管理员与读者的操作权限。</p>
+    <p>（4）<b>系统设计要求</b>：采用 Controller-Service-DAO 三层架构，实现 JSON 数据的文件持久化（不依赖数据库），前端通过 AJAX 技术与后端 RESTful API 通信，提供一键启动脚本简化部署。</p>
+  </div>
+
+  <div class="content-block">
+    <h4>二、技术要点</h4>
+    <p>（1）Java 内嵌 HttpServer 实现 HTTP 服务，自实现递归下降 JSON 解析器处理数据序列化与反序列化。</p>
+    <p>（2）运用 HashMap 实现 O(1) 时间复杂度的图书快速检索，ArrayList 结合自定义 Comparator 实现多字段排序。</p>
+    <p>（3）实现快速排序（O(n log n)）、归并排序（稳定排序）和冒泡排序（O(n²)）三种排序算法，支持用户在前端自由选择。</p>
+    <p>（4）采用 Java NIO 进行文件 I/O 操作，数据以 UTF-8 编码的 JSON 文件存储。</p>
+    <p>（5）前端使用 Fetch API 实现 AJAX 异步数据交互，三线表风格的学术化界面设计。</p>
+    <p>（6）设计基于 sessionStorage 的登录认证机制，管理员和读者共用统一登录入口，系统自动识别角色。</p>
+    <p>（7）读者信息更新采用部分字段合并策略，仅更新用户传入的非空字段，避免数据意外覆盖。</p>
+  </div>
+
+  <div class="content-block">
+    <h4>三、进度安排</h4>
+    <p>第 1—4 周：选题确定、任务书撰写、系统预设计、技术调研。</p>
+    <p>第 5—6 周：可行性分析、需求分析、系统架构设计、数据模型与 API 接口设计。</p>
+    <p>第 7—9 周：图书管理模块开发（Book 模型、BookDao、BookService、BookController、前端图书管理页面）。</p>
+    <p>第 10—12 周：读者管理模块与借阅管理模块并行开发（包括统一登录认证系统）。</p>
+    <p>第 13—14 周：模块集成联调、系统测试、Bug 修复与前端优化。</p>
+    <p>第 15—16 周：系统功能调试与优化、课程设计报告撰写、答辩准备。</p>
+  </div>
+</div>
+
+<!-- ==================== 评阅表 ==================== -->
+<div class="review-table">
+  <h2>软件工程课程设计评阅表</h2>
+  <table>
+    <thead>
+      <tr><th>评分项</th><th>评价内容</th><th>满分</th><th>得分</th></tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="2">设计过程</td><td>1. 任务分工的合理性和对待课程设计的态度</td><td>5</td><td></td></tr>
+      <tr><td>2. 团队协作能力和分析解决问题的能力</td><td>5</td><td></td></tr>
+      <tr><td rowspan="2">系统设计</td><td>3. 系统设计的合理性与可行性</td><td>10</td><td></td></tr>
+      <tr><td>4. 功能的完整性</td><td>15</td><td></td></tr>
+      <tr><td rowspan="2">系统开发</td><td>5. 系统开发的难度</td><td>10</td><td></td></tr>
+      <tr><td>6. 平台设计的规范性</td><td>15</td><td></td></tr>
+      <tr><td rowspan="2">验收答辩</td><td>7. 功能演示、完成程度及创新性</td><td>15</td><td></td></tr>
+      <tr><td>8. 知识掌握程度与回答问题的正确性</td><td>5</td><td></td></tr>
+      <tr><td rowspan="2">设计报告</td><td>9. 设计的合理性与内容的科学性、创新性</td><td>10</td><td></td></tr>
+      <tr><td>10. 文字表达水平、文章的逻辑性与写作规范</td><td>10</td><td></td></tr>
+      <tr><td colspan="2">合计</td><td>100</td><td></td></tr>
+      <tr><td colspan="2">课程设计等级</td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 30px;">指导教师签名：___________________ &nbsp;&nbsp;&nbsp;&nbsp; 年 &nbsp;&nbsp; 月 &nbsp;&nbsp; 日</p>
+  <p style="font-size: 10pt; color: #666;">注：课程设计等级：优秀（90-100），良好（80-89），中等（70-79），及格（60-69），不及格（60分以下）。</p>
+</div>
+
+<!-- ==================== 目录 ==================== -->
+<div class="toc">
+  <h2>目&nbsp;&nbsp;录</h2>
+  <p style="margin: 4px 0;">摘要…………………………………………………………………………………………………1</p>
+  <p style="margin: 4px 0;">关键词………………………………………………………………………………………………1</p>
+  <p style="margin: 4px 0;">Abstract………………………………………………………………………………………………1</p>
+  <p style="margin: 4px 0;">Key words……………………………………………………………………………………………1</p>
+  <p style="margin: 4px 0;">引言……………………………………………………………………………………………………2</p>
+  <p style="margin: 4px 0;">1&nbsp;&nbsp;设计任务与方案选择………………………………………………………………………………2</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;1.1&nbsp;&nbsp;设计任务与指标…………………………………………………………………………2</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;1.2&nbsp;&nbsp;系统方案选择……………………………………………………………………………3</p>
+  <p style="margin: 4px 0;">2&nbsp;&nbsp;系统设计……………………………………………………………………………………………4</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;2.1&nbsp;&nbsp;系统架构设计……………………………………………………………………………4</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;2.2&nbsp;&nbsp;数据模型设计……………………………………………………………………………5</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;2.3&nbsp;&nbsp;API 接口设计……………………………………………………………………………6</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;2.4&nbsp;&nbsp;核心算法与数据结构应用………………………………………………………………7</p>
+  <p style="margin: 4px 0;">3&nbsp;&nbsp;系统调试与测试……………………………………………………………………………………8</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;3.1&nbsp;&nbsp;模块单元测试……………………………………………………………………………8</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;3.2&nbsp;&nbsp;集成测试…………………………………………………………………………………9</p>
+  <p style="margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;3.3&nbsp;&nbsp;边界条件测试……………………………………………………………………………9</p>
+  <p style="margin: 4px 0;">4&nbsp;&nbsp;总结…………………………………………………………………………………………………10</p>
+  <p style="margin: 4px 0;">参考文献………………………………………………………………………………………………11</p>
+  <p style="margin: 4px 0;">附录A&nbsp;&nbsp;源代码文件清单……………………………………………………………………………11</p>
+</div>
+
+<!-- ==================== 摘要 ==================== -->
+<div class="abstract">
+  <h2 style="text-align:center; font-family:'SimHei',sans-serif; font-size:16pt;">图书管理系统</h2>
+  <p style="text-align:center; font-family:'FangSong',serif; font-size:11pt;">软件工程专业学生&nbsp;&nbsp;&nbsp;于利珂</p>
+  <p style="text-align:center; font-family:'FangSong',serif; font-size:11pt;">指导教师&nbsp;&nbsp;路秀华</p>
+
+  <p><b>摘要：</b>本课程设计实现了一个基于 B/S 架构的图书管理系统。系统采用 Java 语言开发后端服务，利用内嵌 HttpServer 提供 HTTP 服务，通过自实现的递归下降 JSON 解析器实现数据的文件持久化存储。前端基于 HTML5、CSS3 和 JavaScript 技术，采用 Fetch API 与后端 RESTful 接口进行异步数据交互。系统包含图书管理、读者管理和借阅管理三大核心模块，实现了图书信息增删改查与多条件检索、读者注册与统一登录认证、借书/还书/续借及超期检测等功能。系统采用 Controller-Service-DAO 三层架构，数据访问层通过 JSON 文件读写替代传统数据库，降低了部署复杂度。在数据结构方面，系统运用 HashMap 实现图书快速检索，实现了快速排序、归并排序和冒泡排序三种排序算法以支持多字段组合排序，采用枚举和状态机模式管理借阅状态流转。系统区分管理员和读者两种角色，管理员拥有全部管理权限，读者可自助注册、登录并完成借阅操作。读者信息更新采用部分字段合并策略，避免数据意外覆盖。系统提供一键启动脚本，简化编译与运行流程。经过功能测试和边界条件测试，系统运行稳定，各模块功能完整。</p>
+  <p class="keywords"><b>关键词：</b>图书管理系统；Java；JSON 持久化；排序算法；B/S 架构；三层架构；统一登录</p>
+
+  <p class="english" style="margin-top:30px; text-align:center; font-size:16pt; font-weight:bold;">Library Management System</p>
+  <p class="english" style="text-align:center; font-size:11pt;">Student majoring in Software Engineering&nbsp;&nbsp;&nbsp;Yu Like</p>
+  <p class="english" style="text-align:center; font-size:11pt;">Tutor&nbsp;&nbsp;Lu Xiuhua</p>
+
+  <p class="english"><b>Abstract:</b> This course design implements a library management system based on B/S architecture. The system uses Java as the back-end language, employing a built-in HttpServer to provide HTTP services, and implements data persistence through a self-implemented recursive-descent JSON parser with file-based storage. The front-end, built with HTML5, CSS3, and JavaScript, communicates with the back-end RESTful API via the Fetch API. The system comprises three core modules: book management, reader management, and borrowing management, providing functionalities including book CRUD operations with multi-condition search, reader self-registration and unified login authentication, book borrowing/returning/renewal with overdue detection. The system adopts a three-tier Controller-Service-DAO architecture. In terms of data structures, HashMap is used for fast book retrieval, and three sorting algorithms (quick sort, merge sort, and bubble sort) are implemented to support multi-field sorting. Enumeration and state machine patterns manage borrowing status transitions. The reader update logic employs partial-field merging to prevent accidental data overwrites. The system provides a one-click startup script. After functional and boundary-condition testing, the system operates stably with complete module functionality.</p>
+  <p class="english"><b>Key words:</b> Library Management System; Java; JSON Persistence; Sorting Algorithm; B/S Architecture; Three-Tier Architecture; Unified Login</p>
+</div>
+
+<!-- ==================== 引言 ==================== -->
+<h2 class="section">引&nbsp;&nbsp;言</h2>
+<p>随着信息技术的飞速发展，高校图书馆的管理方式正逐步从传统的手工登记向数字化、网络化方向转变。一个高效的图书管理系统能够显著提高图书馆的运营效率，方便读者查询和借阅图书，减轻管理人员的工作负担。本课程设计旨在综合运用软件工程专业所学的 Java 程序设计、数据结构、HTML5 等课程知识，设计并实现一个功能完整、架构清晰的图书管理系统。</p>
+<p>本系统采用 B/S（Browser/Server）架构，用户通过浏览器即可访问系统，无需安装客户端软件。后端基于 Java 语言开发，利用 JDK 内置的 HttpServer 类提供 Web 服务，不依赖任何第三方框架。数据持久化方面，系统采用自实现的 JSON 解析器配合文件存储方案，避免了数据库系统的安装配置复杂度。系统还提供了 Windows 一键启动脚本（启动.bat），自动完成编译和端口检测，降低了部署门槛。</p>
+
+<!-- ==================== 1. 设计任务与方案选择 ==================== -->
+<h2 class="section">1&nbsp;&nbsp;设计任务与方案选择</h2>
+
+<h3 class="subsection">1.1&nbsp;&nbsp;设计任务与指标</h3>
+<h4 class="subsubsection">1.1.1&nbsp;&nbsp;设计任务</h4>
+<p>本课程设计的任务是开发一个完整的图书管理系统，涵盖以下核心功能模块：</p>
+<p><b>图书管理：</b>实现对图书信息（ISBN、书名、作者、分类、出版社、出版日期、库存数量）的增删改查操作，支持按书名、作者、ISBN、分类进行多条件模糊检索，支持按书名、作者、出版日期、可借数量进行多字段排序，支持分类的层级管理。</p>
+<p><b>读者管理：</b>实现读者信息（学号/工号、姓名、院系、读者类型、联系电话）的修改、删除和查询功能，区分学生和教师两种类型并自动配置借阅权限（学生最多借5本、借期30天；教师最多借10本、借期60天）。读者通过登录页自助注册，管理员可在后台编辑读者信息、重置密码。提供统一登录入口，系统自动识别管理员和读者角色。</p>
+<p><b>借阅管理：</b>实现借书操作（校验库存和借阅上限）、还书操作（自动计算超期天数）、续借操作（每书限续1次），提供借阅记录的多条件查询，统计超期未还图书列表和热门图书排行榜。</p>
+
+<h4 class="subsubsection">1.1.2&nbsp;&nbsp;设计指标</h4>
+<p>（1）系统响应时间：普通查询和操作在 1 秒内返回结果。</p>
+<p>（2）数据容量：支持至少 1000 条图书记录和 500 条读者记录的存储与检索。</p>
+<p>（3）并发支持：内嵌 HttpServer 默认支持多线程并发请求处理。</p>
+<p>（4）可维护性：代码采用三层架构（Controller-Service-DAO），层次清晰，易于扩展和维护。</p>
+<p>（5）界面可用性：前端界面简洁直观，统一登录入口减少用户困惑，提供友好的错误提示。</p>
+<p>（6）部署便捷性：提供 Windows 一键启动脚本，自动编译和端口检测。</p>
+
+<h3 class="subsection">1.2&nbsp;&nbsp;系统方案选择</h3>
+
+<h4 class="subsubsection">1.2.1&nbsp;&nbsp;后端技术方案</h4>
+<p>方案一：采用 Java Spring Boot + MySQL 数据库。优点：生态成熟，功能强大；缺点：框架依赖重，学习成本高，部署复杂。</p>
+<p>方案二：采用 Java 内嵌 HttpServer + JSON 文件存储。优点：无需额外依赖，仅使用 JDK 内置 API，符合课程要求，部署简单；缺点：文件 I/O 性能不及数据库，不适合大规模并发场景。针对本课程设计的教学场景和功能规模，<b>本系统选择方案二</b>。</p>
+
+<h4 class="subsubsection">1.2.2&nbsp;&nbsp;数据持久化方案</h4>
+<p>系统采用 JSON 文件作为数据持久化方案。三个核心实体（图书、读者、借阅记录）分别存储在 books.json、readers.json 和 borrow_records.json 三个文件中。为不引入第三方 JSON 库依赖，系统自实现了一个基于递归下降算法的 JSON 解析器（JsonUtil），支持基本类型、字符串、数组、对象及嵌套结构的序列化与反序列化，同时处理了 UTF-8 BOM 头、枚举类型和静态字段等特殊情况。</p>
+
+<h4 class="subsubsection">1.2.3&nbsp;&nbsp;前端技术方案</h4>
+<p>前端采用原生 HTML5 + CSS3 + JavaScript 实现，不依赖任何前端框架。页面采用三线表风格的表格展示数据，表单交互采用弹窗模式。JavaScript 通过 Fetch API 与后端 RESTful API 进行 JSON 格式的数据交互。登录页面采用统一登录框设计，用户输入账号后系统自动识别管理员或读者身份，无需切换标签页。登录状态基于浏览器 sessionStorage 实现，公共函数（openModal、closeModal、showToast、escapeHtml 等）集中在 api.js 中统一管理。</p>
+
+<h4 class="subsubsection">1.2.4&nbsp;&nbsp;排序算法方案</h4>
+<p>为实现图书列表的多字段排序，系统实现了三种排序算法供用户选择：快速排序（Quick Sort）作为默认算法，时间复杂度 O(n log n)；归并排序（Merge Sort）提供稳定排序特性，适合出版日期等有重复值的字段；冒泡排序（Bubble Sort）时间复杂度 O(n²)，主要用于教学对比。排序通过 Java 泛型和 Comparator 接口实现，支持升序和降序两种方向。</p>
+
+<h4 class="subsubsection">1.2.5&nbsp;&nbsp;读者信息更新策略</h4>
+<p>读者信息编辑采用部分字段合并更新策略。前端提交的 JSON 对象可能只包含需要修改的字段（如仅修改密码时只发送 {"password":"123456"}），后端 ReaderService.updateReader() 方法先加载现有读者记录，再将请求中非 null 的字段逐一覆盖到现有对象上进行保存。此策略避免了全量替换时未传递的字段被意外清空的风险，尤其保护了 currentBorrows 等系统自动维护的字段不被手动篡改。</p>
+
+<!-- ==================== 2. 系统设计 ==================== -->
+<h2 class="section">2&nbsp;&nbsp;系统设计</h2>
+
+<h3 class="subsection">2.1&nbsp;&nbsp;系统架构设计</h3>
+<p>系统采用经典的三层架构模式：Controller（控制层）负责接收 HTTP 请求、解析参数并返回 JSON 响应；Service（业务逻辑层）负责核心业务逻辑的处理，包括数据校验、借阅规则判断、排序算法调用等；DAO（数据访问层）负责 JSON 文件的读写操作。</p>
+<p>系统的网络层基于 Java 内置的 com.sun.net.httpserver.HttpServer 实现。Router 类作为统一的请求分发器，根据 URL 路径和 HTTP 方法将请求路由到对应的 Controller 方法。系统同时提供静态文件服务，前端 HTML/CSS/JS 文件通过 Router 的 serveStaticFile 方法直接返回给浏览器，并包含目录穿越安全防护。</p>
+
+<figure>
+  <figcaption>图1-1&nbsp;&nbsp;系统三层架构图</figcaption>
+  <pre class="code" style="text-align:left;">
+┌──────────────────────────────────────────────┐
+│          浏览器 (Browser)                      │
+│   login.html -> index.html -> pages/*.html      │
+│   Fetch API <-> JSON 数据交互                    │
+└──────────────────┬───────────────────────────┘
+                   │ HTTP (RESTful API)
+┌──────────────────▼───────────────────────────┐
+│      控制层 (Controller Layer)                 │
+│  Router.java        — 路由分发 + 静态文件       │
+│  BookController     — /api/books/*             │
+│  ReaderController   — /api/readers/*           │
+│  BorrowController   — /api/borrow/*, /return/* │
+│  LoginController    — /api/login, /register    │
+└──────────────────┬───────────────────────────┘
+                   │
+┌──────────────────▼───────────────────────────┐
+│      业务逻辑层 (Service Layer)                 │
+│  BookService       — 图书搜索、排序、库存管理    │
+│  ReaderService     — 读者注册、部分字段更新      │
+│  BorrowService     — 借阅、归还、续借、统计     │
+└──────────────────┬───────────────────────────┘
+                   │
+┌──────────────────▼───────────────────────────┐
+│      数据访问层 (DAO Layer)                     │
+│  BookDao           — books.json 读写           │
+│  ReaderDao         — readers.json 读写         │
+│  BorrowRecordDao   — borrow_records.json 读写  │
+└──────────────────┬───────────────────────────┘
+                   │
+┌──────────────────▼───────────────────────────┐
+│      工具层 (Util Layer)                       │
+│  JsonUtil          — JSON 序列化/反序列化       │
+│  SortUtil          — 快速/归并/冒泡排序         │
+│  DateUtil          — 日期计算工具              │
+└──────────────────────────────────────────────┘
+  </pre>
+</figure>
+
+<h3 class="subsection">2.2&nbsp;&nbsp;数据模型设计</h3>
+<p>系统设计了三个核心数据模型，对应三个 JSON 持久化文件。</p>
+
+<figure>
+  <figcaption>表2-1&nbsp;&nbsp;Book（图书）实体字段</figcaption>
+  <table class="data">
+    <thead><tr><th>字段名</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+    <tbody>
+      <tr><td class="english">isbn</td><td class="english">String</td><td>ISBN编号</td><td>唯一键，不可为空</td></tr>
+      <tr><td class="english">title</td><td class="english">String</td><td>书名</td><td>不可为空</td></tr>
+      <tr><td class="english">author</td><td class="english">String</td><td>作者</td><td>不可为空</td></tr>
+      <tr><td class="english">category</td><td class="english">String</td><td>分类（层级，如"计算机科学/编程语言/Java"）</td><td></td></tr>
+      <tr><td class="english">totalCount</td><td class="english">int</td><td>总册数</td><td></td></tr>
+      <tr><td class="english">availableCount</td><td class="english">int</td><td>可借册数</td><td>借出递减，归还递增</td></tr>
+      <tr><td class="english">publisher</td><td class="english">String</td><td>出版社</td><td></td></tr>
+      <tr><td class="english">publishDate</td><td class="english">String</td><td>出版日期</td><td>格式 yyyy-MM-dd</td></tr>
+      <tr><td class="english">description</td><td class="english">String</td><td>简介</td><td>可选</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<figure>
+  <figcaption>表2-2&nbsp;&nbsp;Reader（读者）实体字段</figcaption>
+  <table class="data">
+    <thead><tr><th>字段名</th><th>类型</th><th>说明</th><th>约束</th></tr></thead>
+    <tbody>
+      <tr><td class="english">readerId</td><td class="english">String</td><td>读者ID（学号/工号）</td><td>唯一键</td></tr>
+      <tr><td class="english">name</td><td class="english">String</td><td>姓名</td><td></td></tr>
+      <tr><td class="english">department</td><td class="english">String</td><td>院系/部门</td><td></td></tr>
+      <tr><td class="english">readerType</td><td class="english">ReaderType</td><td>读者类型（STUDENT/TEACHER）</td><td>枚举类型</td></tr>
+      <tr><td class="english">phone</td><td class="english">String</td><td>联系电话</td><td></td></tr>
+      <tr><td class="english">password</td><td class="english">String</td><td>登录密码</td><td>管理员可重置</td></tr>
+      <tr><td class="english">currentBorrows</td><td class="english">int</td><td>当前借阅数</td><td>系统自动维护</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<figure>
+  <figcaption>表2-3&nbsp;&nbsp;BorrowRecord（借阅记录）实体字段</figcaption>
+  <table class="data">
+    <thead><tr><th>字段名</th><th>类型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="english">recordId</td><td class="english">String</td><td>记录ID（UUID前8位）</td></tr>
+      <tr><td class="english">isbn</td><td class="english">String</td><td>图书ISBN（外键关联Book）</td></tr>
+      <tr><td class="english">readerId</td><td class="english">String</td><td>读者ID（外键关联Reader）</td></tr>
+      <tr><td class="english">borrowDate</td><td class="english">String</td><td>借书日期</td></tr>
+      <tr><td class="english">dueDate</td><td class="english">String</td><td>应还日期</td></tr>
+      <tr><td class="english">returnDate</td><td class="english">String</td><td>实际还书日期（null表示未还）</td></tr>
+      <tr><td class="english">status</td><td class="english">Status</td><td>借阅状态（BORROWED/RETURNED/OVERDUE）</td></tr>
+      <tr><td class="english">renewCount</td><td class="english">int</td><td>续借次数（最多1次）</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<p>借阅状态采用状态机模式管理：BORROWED（借出中）为初始状态，还书后变为 RETURNED（已归还），系统检测到超过应还日期则自动标记为 OVERDUE（已超期）。BORROWED 可通过续借操作延长应还日期并增加续借计数，每书限续1次。</p>
+
+<h3 class="subsection">2.3&nbsp;&nbsp;API 接口设计</h3>
+<p>系统采用 RESTful 风格设计 API 接口，前后端通过 JSON 格式进行数据交互。所有 API 响应均包含统一的 JSON 结构：{"success": true/false, "message": "...", "data": ...}。</p>
+
+<figure>
+  <figcaption>表2-4&nbsp;&nbsp;图书管理 API</figcaption>
+  <table class="data">
+    <thead><tr><th>方法</th><th>路径</th><th>说明</th><th>参数</th></tr></thead>
+    <tbody>
+      <tr><td>GET</td><td class="english">/api/books</td><td>查询图书列表</td><td class="english">?keyword=&category=&sort=&algo=</td></tr>
+      <tr><td>GET</td><td class="english">/api/books/{isbn}</td><td>获取单本图书详情</td><td></td></tr>
+      <tr><td>POST</td><td class="english">/api/books</td><td>新增图书</td><td>JSON Body</td></tr>
+      <tr><td>PUT</td><td class="english">/api/books/{isbn}</td><td>修改图书信息</td><td>JSON Body</td></tr>
+      <tr><td>DELETE</td><td class="english">/api/books/{isbn}</td><td>删除图书</td><td></td></tr>
+      <tr><td>POST</td><td class="english">/api/books/{isbn}/stock</td><td>入库增加库存</td><td>JSON Body</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<figure>
+  <figcaption>表2-5&nbsp;&nbsp;读者管理与认证 API</figcaption>
+  <table class="data">
+    <thead><tr><th>方法</th><th>路径</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>GET</td><td class="english">/api/readers</td><td>查询读者列表（支持关键词搜索）</td></tr>
+      <tr><td>GET</td><td class="english">/api/readers/{id}</td><td>获取单个读者详情</td></tr>
+      <tr><td>PUT</td><td class="english">/api/readers/{id}</td><td>修改读者信息（部分字段更新）</td></tr>
+      <tr><td>DELETE</td><td class="english">/api/readers/{id}</td><td>删除读者</td></tr>
+      <tr><td>POST</td><td class="english">/api/login</td><td>统一登录（自动识别管理员/读者）</td></tr>
+      <tr><td>POST</td><td class="english">/api/register</td><td>读者自助注册</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<figure>
+  <figcaption>表2-6&nbsp;&nbsp;借阅管理 API</figcaption>
+  <table class="data">
+    <thead><tr><th>方法</th><th>路径</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>POST</td><td class="english">/api/borrow</td><td>借书操作</td></tr>
+      <tr><td>POST</td><td class="english">/api/return/{recordId}</td><td>还书操作</td></tr>
+      <tr><td>POST</td><td class="english">/api/renew/{recordId}</td><td>续借操作</td></tr>
+      <tr><td>GET</td><td class="english">/api/borrow-records</td><td>查询借阅记录（支持筛选）</td></tr>
+      <tr><td>GET</td><td class="english">/api/stats/popular-books</td><td>热门图书排行榜</td></tr>
+      <tr><td>GET</td><td class="english">/api/stats/overdue</td><td>超期未还列表</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<h3 class="subsection">2.4&nbsp;&nbsp;核心算法与数据结构应用</h3>
+
+<h4 class="subsubsection">2.4.1&nbsp;&nbsp;排序算法的实现与对比</h4>
+<p>系统在 SortUtil 工具类中实现了三种排序算法，均采用 Java 泛型设计，通过 Comparator 接口实现多字段、升降序的灵活排序。</p>
+<p><b>快速排序（Quick Sort）：</b>以最后一个元素为基准（pivot），通过 partition 操作分区后递归排序。平均时间复杂度 O(n log n)，空间复杂度 O(log n)。</p>
+<p><b>归并排序（Merge Sort）：</b>采用分治策略，递归划分后自底向上合并有序子序列。稳定排序，时间复杂度恒为 O(n log n)，空间复杂度 O(n)。</p>
+<p><b>冒泡排序（Bubble Sort）：</b>相邻元素比较交换，设置交换标志位实现提前退出优化。时间复杂度 O(n²)，主要用于教学对比。</p>
+
+<h4 class="subsubsection">2.4.2&nbsp;&nbsp;图书检索与读者信息更新</h4>
+<p>图书检索采用 Java Stream API 的 filter 操作结合字符串模糊匹配。ISBN 和读者 ID 的查询可通过 HashMap 实现 O(1) 快速索引。读者信息更新采用部分字段合并策略——ReaderService.updateReader() 先加载现有记录，再将请求中非 null 字段逐一覆盖，currentBorrows 等系统字段由借还操作自动维护，不开放手动修改。</p>
+
+<h4 class="subsubsection">2.4.3&nbsp;&nbsp;借阅状态机</h4>
+<p>借阅状态采用枚举（BorrowRecord.Status）结合状态转换规则实现。BORROWED 可通过还书转换为 RETURNED，系统通过 DateUtil.isOverdue() 实时检测超期并标记 OVERDUE。续借仅对 BORROWED 状态有效，renewCount 上限为1次。</p>
+
+<h4 class="subsubsection">2.4.4&nbsp;&nbsp;JSON 解析器实现</h4>
+<p>系统自实现了一个基于递归下降算法的 JSON 解析器（JsonUtil），按照 JSON 语法产生式规则，通过递归调用 parseValue()、parseObject()、parseArray() 等方法实现完整解析。序列化通过 Java 反射获取对象字段并递归序列化，过滤静态字段和合成字段。特别处理了 UTF-8 BOM 去除。</p>
+
+<!-- ==================== 3. 系统调试与测试 ==================== -->
+<h2 class="section">3&nbsp;&nbsp;系统调试与测试</h2>
+
+<h3 class="subsection">3.1&nbsp;&nbsp;模块单元测试</h3>
+
+<h4 class="subsubsection">3.1.1&nbsp;&nbsp;图书管理模块测试</h4>
+<p>添加 16 本计算机科学类图书作为测试数据，验证了：新增图书时 availableCount 自动初始化为 totalCount；重复 ISBN 返回错误提示；关键词模糊搜索和分类筛选结果正确；三种排序算法结果一致。</p>
+
+<h4 class="subsubsection">3.1.2&nbsp;&nbsp;读者管理模块测试</h4>
+<p>添加 7 名学生和 3 名教师共 10 位读者，验证了：读者注册自动设置默认密码；学生/教师借阅上限和期限正确；统一登录框正确识别管理员和读者身份；部分字段更新（仅修改密码、仅修改姓名等）不覆盖其他字段；管理员重置读者密码功能正常。</p>
+
+<h4 class="subsubsection">3.1.3&nbsp;&nbsp;借阅管理模块测试</h4>
+<p>添加 20 条借阅记录，验证了：借书操作正确校验库存和借阅上限；还书操作正确恢复库存和借阅计数，自动计算超期天数；续借操作正确延长期限并限制次数。</p>
+
+<h3 class="subsection">3.2&nbsp;&nbsp;集成测试</h3>
+<p>分别以管理员和读者身份登录，验证管理员看到全局统计面板和全部管理菜单，读者看到个人借阅面板和有限菜单。完整走通"读者注册→登录→管理员添加图书→读者借书→还书→续借"全流程，前后端数据一致。</p>
+
+<h3 class="subsection">3.3&nbsp;&nbsp;边界条件测试</h3>
+<p>（1）库存为 0 时借书：返回"该图书已全部借出"。</p>
+<p>（2）读者达到借阅上限：返回"借阅数量已达上限"。</p>
+<p>（3）重复借阅同一本书：阻止重复借阅。</p>
+<p>（4）删除有未还书的读者：返回错误提示。</p>
+<p>（5）续借超限：返回"不能再次续借"。</p>
+<p>（6）重复归还：返回"该图书已归还"。</p>
+<p>（7）登录错误处理：错误密码、不存在ID、空用户名均返回相应提示。</p>
+<p>（8）部分字段更新：仅发送密码字段时不影响其他字段。</p>
+<p>所有边界条件测试均符合预期，系统在异常情况下给出明确错误提示，无未捕获异常或数据不一致。</p>
+
+<!-- ==================== 4. 总结 ==================== -->
+<h2 class="section">4&nbsp;&nbsp;总结</h2>
+
+<h3 class="subsection">4.1&nbsp;&nbsp;项目完成情况</h3>
+<p>本课程设计成功实现了一个功能完整、架构清晰的图书管理系统。系统包含图书管理、读者管理和借阅管理三大核心模块，覆盖 16 个 RESTful API 接口和 5 个前端页面（统一登录页、首页、图书管理、读者管理、借阅管理）。系统实现了管理员和读者两种角色的权限分离，采用统一登录入口自动识别角色。读者可自助注册，管理员可编辑读者信息和重置密码。读者信息更新采用部分字段合并策略确保数据安全。系统提供一键启动脚本（启动.bat），自动完成编译和端口检测。在技术实现上，自实现 JSON 解析器和三种排序算法，运用了 HashMap、枚举状态机、递归下降解析等多种数据结构与算法。</p>
+
+<h3 class="subsection">4.2&nbsp;&nbsp;团队协作与分工</h3>
+<p>项目采用 3 人小组协作模式，按模块分工：于利珂负责图书管理模块（Book.java、BookDao、BookService、BookController）和系统架构设计（App.java、Router、JsonUtil），刘洪森负责借阅管理模块（BorrowRecord.java、BorrowRecordDao、BorrowService、BorrowController）和排序算法实现（SortUtil），肖景匀负责读者管理模块（Reader.java、ReaderDao、ReaderService、ReaderController）和登录认证系统（LoginController）。前端方面，三人分别负责对应页面，公共模块（导航、样式、API封装、弹窗管理）由团队协商完成。各模块通过统一的 JSON 数据格式和 RESTful API 实现松耦合协作。</p>
+
+<h3 class="subsection">4.3&nbsp;&nbsp;收获与反思</h3>
+<p>通过本次课程设计，项目组成员深入理解了从需求分析、系统设计到编码实现、测试调试的完整开发流程。在技术层面，巩固了 Java 面向对象编程、HTTP 协议、JSON 数据格式、B/S 架构和前后端分离的开发模式。在工程层面，体会了模块化设计、接口定义、版本控制（Git）在团队协作中的重要性。系统存在的不足：JSON 文件存储方案不适合高并发场景；前端未使用响应式框架，交互体验有提升空间。这些问题将在后续学习中进一步改进。</p>
+
+<!-- ==================== 参考文献 ==================== -->
+<h2 class="section">参考文献</h2>
+<div class="references">
+  <p>[1] Cay S. Horstmann. Java核心技术 卷I[M]. 11版. 北京：机械工业出版社，2020.</p>
+  <p>[2] Mark Allen Weiss. 数据结构与算法分析：Java语言描述[M]. 3版. 北京：机械工业出版社，2018.</p>
+  <p>[3] 张海藩. 软件工程导论[M]. 6版. 北京：清华大学出版社，2020.</p>
+  <p>[4] Douglas Crockford. The application/json Media Type for JavaScript Object Notation (JSON)[S]. RFC 4627, 2006.</p>
+  <p>[5] Thomas H. Cormen 等. 算法导论[M]. 3版. 北京：机械工业出版社，2013.</p>
+  <p>[6] Roy T. Fielding. Architectural Styles and the Design of Network-based Software Architectures[D]. UC Irvine, 2000.</p>
+  <p>[7] 孙卫琴. Java网络编程精解[M]. 北京：电子工业出版社，2019.</p>
+  <p>[8] Eric A. Meyer. CSS权威指南[M]. 4版. 北京：机械工业出版社，2019.</p>
+  <p>[9] James F. Kurose. 计算机网络：自顶向下方法[M]. 7版. 北京：机械工业出版社，2018.</p>
+  <p>[10] Matt Frisbie. JavaScript高级程序设计[M]. 4版. 北京：人民邮电出版社，2020.</p>
+</div>
+
+<!-- ==================== 附录 ==================== -->
+<h2 class="section">附录A&nbsp;&nbsp;源代码文件清单</h2>
+<div class="references">
+  <p>表A-1&nbsp;&nbsp;后端Java源代码文件（15个）</p>
+  <table class="data">
+    <thead><tr><th>包路径</th><th>文件名</th><th>行数</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="english">com.library.model</td><td class="english">Book.java</td><td>~70</td><td>图书数据模型</td></tr>
+      <tr><td class="english">com.library.model</td><td class="english">Reader.java</td><td>~80</td><td>读者数据模型（含借阅权限计算）</td></tr>
+      <tr><td class="english">com.library.model</td><td class="english">BorrowRecord.java</td><td>~80</td><td>借阅记录模型（含状态枚举）</td></tr>
+      <tr><td class="english">com.library.dao</td><td class="english">BookDao.java</td><td>~90</td><td>图书JSON文件读写</td></tr>
+      <tr><td class="english">com.library.dao</td><td class="english">ReaderDao.java</td><td>~90</td><td>读者JSON文件读写</td></tr>
+      <tr><td class="english">com.library.dao</td><td class="english">BorrowRecordDao.java</td><td>~80</td><td>借阅记录JSON文件读写</td></tr>
+      <tr><td class="english">com.library.service</td><td class="english">BookService.java</td><td>~160</td><td>图书业务逻辑（搜索/排序/库存）</td></tr>
+      <tr><td class="english">com.library.service</td><td class="english">ReaderService.java</td><td>~95</td><td>读者业务逻辑（部分字段更新）</td></tr>
+      <tr><td class="english">com.library.service</td><td class="english">BorrowService.java</td><td>~240</td><td>借阅业务逻辑（借/还/续/统计）</td></tr>
+      <tr><td class="english">com.library.controller</td><td class="english">BookController.java</td><td>~110</td><td>图书API控制器</td></tr>
+      <tr><td class="english">com.library.controller</td><td class="english">ReaderController.java</td><td>~85</td><td>读者API控制器</td></tr>
+      <tr><td class="english">com.library.controller</td><td class="english">BorrowController.java</td><td>~90</td><td>借阅API控制器</td></tr>
+      <tr><td class="english">com.library.controller</td><td class="english">LoginController.java</td><td>~125</td><td>统一登录/注册控制器</td></tr>
+      <tr><td class="english">com.library.controller</td><td class="english">Router.java</td><td>~240</td><td>路由分发 + 静态文件服务</td></tr>
+      <tr><td class="english">com.library</td><td class="english">App.java</td><td>~130</td><td>系统主入口 + 示例数据初始化</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:12px;">表A-2&nbsp;&nbsp;前端文件（11个）</p>
+  <table class="data">
+    <thead><tr><th>路径</th><th>文件名</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="english">web/</td><td class="english">login.html</td><td>统一登录/注册页面</td></tr>
+      <tr><td class="english">web/</td><td class="english">index.html</td><td>首页（统计+检索+排行榜）</td></tr>
+      <tr><td class="english">web/css/</td><td class="english">style.css</td><td>全局样式表</td></tr>
+      <tr><td class="english">web/js/</td><td class="english">auth.js</td><td>认证与导航渲染模块</td></tr>
+      <tr><td class="english">web/js/</td><td class="english">api.js</td><td>API封装 + 公共函数（弹窗/Toast/转义）</td></tr>
+      <tr><td class="english">web/js/</td><td class="english">book.js</td><td>图书管理前端逻辑</td></tr>
+      <tr><td class="english">web/js/</td><td class="english">reader.js</td><td>读者管理前端逻辑（含重置密码）</td></tr>
+      <tr><td class="english">web/js/</td><td class="english">borrow.js</td><td>借阅管理前端逻辑</td></tr>
+      <tr><td class="english">web/pages/</td><td class="english">book-manage.html</td><td>图书管理页面</td></tr>
+      <tr><td class="english">web/pages/</td><td class="english">reader-manage.html</td><td>读者管理页面</td></tr>
+      <tr><td class="english">web/pages/</td><td class="english">borrow-manage.html</td><td>借阅管理页面</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:12px;">表A-3&nbsp;&nbsp;工具与配置文件</p>
+  <table class="data">
+    <thead><tr><th>文件名</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="english">启动.bat</td><td>Windows 一键启动脚本（编译+端口检测+启动）</td></tr>
+      <tr><td class="english">README.md</td><td>项目说明文档</td></tr>
+      <tr><td class="english">.gitignore</td><td>Git 忽略规则</td></tr>
+      <tr><td class="english">课程设计报告.html</td><td>课程设计报告（本文件）</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="text-align:center; margin-top:40px; padding:20px; color:#999; font-size:10pt;">
+  — 报告结束 —
+</div>
+
+</body>
+</html>
