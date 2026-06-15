@@ -83,8 +83,8 @@
     <tr><td class="label">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td><td class="value">于利珂</td></tr>
     <tr><td class="label">院&nbsp;&nbsp;&nbsp;&nbsp;系：</td><td class="value">网络空间安全学院</td></tr>
     <tr><td class="label">专&nbsp;&nbsp;&nbsp;&nbsp;业：</td><td class="value">软件工程</td></tr>
-    <tr><td class="label">指导教师：</td><td class="value">李桂青</td></tr>
-    <tr><td class="label">职&nbsp;&nbsp;&nbsp;&nbsp;称：</td><td class="value"></td></tr>
+    <tr><td class="label">指导教师：</td><td class="value">路秀华</td></tr>
+    <tr><td class="label">职&nbsp;&nbsp;&nbsp;&nbsp;称：</td><td class="value">副教授</td></tr>
   </table>
   <div class="date">2024 年 6 月</div>
 </div>
@@ -96,8 +96,8 @@
     <tr><td class="label">课程设计题目</td><td>图书管理系统（Library Management System）</td></tr>
     <tr><td class="label">院（系）</td><td>网络空间安全学院</td></tr>
     <tr><td class="label">专&nbsp;&nbsp;&nbsp;&nbsp;业</td><td>软件工程</td></tr>
-    <tr><td class="label">指导教师</td><td>李桂青</td></tr>
-    <tr><td class="label">职&nbsp;&nbsp;&nbsp;&nbsp;称</td><td></td></tr>
+    <tr><td class="label">指导教师</td><td>路秀华</td></tr>
+    <tr><td class="label">职&nbsp;&nbsp;&nbsp;&nbsp;称</td><td>副教授</td></tr>
   </table>
 
   <table>
@@ -105,9 +105,9 @@
       <tr><th>姓名</th><th>年级</th><th>学号</th><th>承担任务</th></tr>
     </thead>
     <tbody>
-      <tr><td>于利珂</td><td>2024级</td><td></td><td>图书管理模块（后端+前端）、系统架构设计、JSON解析器实现</td></tr>
-      <tr><td>肖景匀</td><td>2024级</td><td></td><td>读者管理模块（后端+前端）、登录认证系统、数据模型设计</td></tr>
-      <tr><td>刘洪森</td><td>2024级</td><td></td><td>借阅管理模块（后端+前端）、排序算法实现、测试验证</td></tr>
+      <tr><td>于利珂</td><td>2024级</td><td>2024413595</td><td>图书管理模块（后端+前端）、系统架构设计、JSON解析器实现</td></tr>
+      <tr><td>刘洪森</td><td>2024级</td><td>2024413594</td><td>借阅管理模块（后端+前端）、排序算法实现、测试验证</td></tr>
+      <tr><td>肖景匀</td><td>2024级</td><td>2024413596</td><td>读者管理模块（后端+前端）、登录认证系统、数据模型设计</td></tr>
     </tbody>
   </table>
 
@@ -196,7 +196,7 @@
 <div class="abstract">
   <h2 style="text-align:center; font-family:'SimHei',sans-serif; font-size:16pt;">图书管理系统</h2>
   <p style="text-align:center; font-family:'FangSong',serif; font-size:11pt;">软件工程专业学生&nbsp;&nbsp;&nbsp;于利珂</p>
-  <p style="text-align:center; font-family:'FangSong',serif; font-size:11pt;">指导教师&nbsp;&nbsp;李桂青</p>
+  <p style="text-align:center; font-family:'FangSong',serif; font-size:11pt;">指导教师&nbsp;&nbsp;路秀华</p>
 
   <p><b>摘要：</b>本课程设计实现了一个基于 B/S 架构的图书管理系统。系统采用 Java 语言开发后端服务，利用内嵌 HttpServer 提供 HTTP 服务，通过自实现的递归下降 JSON 解析器实现数据的文件持久化存储。前端基于 HTML5、CSS3 和 JavaScript 技术，采用 Fetch API 与后端 RESTful 接口进行异步数据交互。系统包含图书管理、读者管理和借阅管理三大核心模块，实现了图书信息增删改查与多条件检索、读者注册与登录认证、借书/还书/续借及超期检测等功能。系统采用 Controller-Service-DAO 三层架构，数据访问层通过 JSON 文件读写替代传统数据库，降低了部署复杂度。在数据结构方面，系统运用 HashMap 实现图书快速检索，实现了快速排序、归并排序和冒泡排序三种排序算法以支持多字段组合排序，采用枚举和状态机模式管理借阅状态流转。系统区分管理员和读者两种角色，管理员拥有全部管理权限，读者可自助注册、登录并完成借阅操作。经过功能测试和边界条件测试，系统运行稳定，各模块功能完整。</p>
   <p class="keywords"><b>关键词：</b>图书管理系统；Java；JSON 持久化；排序算法；B/S 架构；三层架构</p>
@@ -455,7 +455,7 @@
 <p>本课程设计成功实现了一个功能完整、架构清晰的图书管理系统。系统包含图书管理、读者管理和借阅管理三大核心模块，覆盖 16 个 RESTful API 接口和 5 个前端页面（登录页、首页、图书管理、读者管理、借阅管理）。系统实现了管理员和读者两种角色的权限分离，支持读者自助注册和登录。在技术实现上，自实现 JSON 解析器和三种排序算法，并运用了 HashMap、枚举状态机、递归下降解析等多种数据结构与算法，满足了"较难"等级的设计要求。</p>
 
 <h3 class="subsection">4.2&nbsp;&nbsp;团队协作与分工</h3>
-<p>项目采用 3 人小组协作模式，按照系统模块进行分工：于利珂负责图书管理模块（Book.java、BookDao、BookService、BookController）和系统架构设计（App.java、Router、JsonUtil），肖景匀负责读者管理模块（Reader.java、ReaderDao、ReaderService、ReaderController）和登录认证系统（LoginController），刘洪森负责借阅管理模块（BorrowRecord.java、BorrowRecordDao、BorrowService、BorrowController）和排序算法实现（SortUtil）。前端方面，三人分别负责对应的管理页面开发，公共模块（导航框架、样式、API封装）由团队协商完成。各模块定义了明确的接口边界，通过统一的 JSON 数据格式和 RESTful API 规范实现模块间的松耦合协作。</p>
+<p>项目采用 3 人小组协作模式，按照系统模块进行分工：于利珂负责图书管理模块（Book.java、BookDao、BookService、BookController）和系统架构设计（App.java、Router、JsonUtil），刘洪森负责借阅管理模块（BorrowRecord.java、BorrowRecordDao、BorrowService、BorrowController）和排序算法实现（SortUtil），肖景匀负责读者管理模块（Reader.java、ReaderDao、ReaderService、ReaderController）和登录认证系统（LoginController）。前端方面，三人分别负责对应的管理页面开发，公共模块（导航框架、样式、API封装）由团队协商完成。各模块定义了明确的接口边界，通过统一的 JSON 数据格式和 RESTful API 规范实现模块间的松耦合协作。</p>
 
 <h3 class="subsection">4.3&nbsp;&nbsp;收获与反思</h3>
 <p>通过本次课程设计，项目组成员深入理解了软件工程中从需求分析、系统设计到编码实现、测试调试的完整开发流程。在技术层面，巩固了 Java 面向对象编程、HTTP 协议、JSON 数据格式、B/S 架构和前后端分离的开发模式。在工程层面，体会了模块化设计、接口定义、版本控制（Git）在团队协作中的重要性。同时也认识到系统存在的不足：JSON 文件存储方案在读多写少场景下性能尚可，但不适合高并发和大量数据场景；前端未使用响应式框架，界面交互体验有提升空间。这些问题将在后续学习和项目实践中进一步改进。</p>
