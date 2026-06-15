@@ -1,7 +1,7 @@
 # 图书管理系统 (Library Management System)
 
 > 软件工程课程设计1 — 图书管理系统  
-> 难度等级：较难 | 起评分：80 | 团队：3人
+> 团队：3人
 
 ## 项目简介
 
@@ -138,7 +138,7 @@ LibraryManagementSystem/
 
 | 成员 | 负责模块 | Java文件 | 前端页面 |
 |------|----------|----------|----------|
-| 成员1 | 图书管理 | Book.java, BookDao, BookService, BookController | book-manage.html |
-| 成员2 | 读者管理 | Reader.java, ReaderDao, ReaderService, ReaderController | reader-manage.html |
-| 成员3 | 借阅管理 | BorrowRecord.java, BorrowRecordDao, BorrowService, BorrowController | borrow-manage.html |
+| 于利珂 | 图书管理 | Book.java, BookDao, BookService, BookController | book-manage.html |
+| 肖景匀 | 读者管理 | Reader.java, ReaderDao, ReaderService, ReaderController | reader-manage.html |
+| 刘洪森 | 借阅管理 | BorrowRecord.java, BorrowRecordDao, BorrowService, BorrowController | borrow-manage.html |
 | 共同 | 基础框架 | App.java, Router, JsonUtil, SortUtil, DateUtil | index.html, style.css, api.js |
