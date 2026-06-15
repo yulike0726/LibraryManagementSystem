@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>图书管理系统</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">首页</a>
+                <a href="pages/book-manage.html" class="nav-link">图书管理</a>
+                <a href="pages/reader-manage.html" class="nav-link">读者管理</a>
+                <a href="pages/borrow-manage.html" class="nav-link">借阅管理</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- 数据概览 -->
+        <section class="stats-row">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-number" id="totalBooks">-</div>
+                    <div class="stat-label">馆藏图书</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-number" id="totalReaders">-</div>
+                    <div class="stat-label">注册读者</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-number" id="borrowingCount">-</div>
+                    <div class="stat-label">借出中</div>
+                </div>
+            </div>
+            <div class="stat-card overdue">
+                <div class="stat-info">
+                    <div class="stat-number" id="overdueCount">-</div>
+                    <div class="stat-label">超期未还</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 图书检索 -->
+        <section class="card">
+            <div class="card-header">
+                <h2>图书检索</h2>
+            </div>
+            <div class="card-body">
+                <div class="search-bar">
+                    <input type="text" id="searchKeyword" placeholder="输入书名、作者、ISBN或分类关键词...">
+                    <select id="searchCategory">
+                        <option value="">全部分类</option>
+                        <option value="计算机科学">计算机科学</option>
+                        <option value="编程语言">编程语言</option>
+                        <option value="数据结构">数据结构</option>
+                        <option value="算法">算法</option>
+                        <option value="网络">网络</option>
+                        <option value="数据库">数据库</option>
+                        <option value="软件工程">软件工程</option>
+                    </select>
+                    <select id="sortField">
+                        <option value="">默认排序</option>
+                        <option value="TITLE">按书名</option>
+                        <option value="AUTHOR">按作者</option>
+                        <option value="PUBLISH_DATE">按出版日期</option>
+                        <option value="AVAILABLE_COUNT">按可借数量</option>
+                    </select>
+                    <select id="sortAlgorithm">
+                        <option value="quick">快速排序</option>
+                        <option value="merge">归并排序</option>
+                        <option value="bubble">冒泡排序</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="searchBooks()">搜索</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 图书列表 -->
+        <section class="card">
+            <div class="card-header">
+                <h2>图书列表</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ISBN</th>
+                                <th>书名</th>
+                                <th>作者</th>
+                                <th>分类</th>
+                                <th>库存（可借/总数）</th>
+                                <th>出版社</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookTableBody">
+                            <tr><td colspan="6" class="text-center">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门排行 -->
+        <section class="card">
+            <div class="card-header">
+                <h2>热门图书排行榜（TOP 10）</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>书名</th>
+                                <th>作者</th>
+                                <th>借阅次数</th>
+                            </tr>
+                        </thead>
+                        <tbody id="popularTableBody">
+                            <tr><td colspan="4" class="text-center">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>图书管理系统 &copy; 2024 软件工程课程设计</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/book.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            searchBooks();
+            loadPopularBooks();
+        });
+
+        async function loadStats() {
+            try {
+                const books = await API.get('/books');
+                const readers = await API.get('/readers');
+                const borrowing = await API.get('/borrow-records?status=BORROWED');
+                const overdue = await API.get('/stats/overdue');
+                document.getElementById('totalBooks').textContent = books.total || 0;
+                document.getElementById('totalReaders').textContent = readers.total || 0;
+                document.getElementById('borrowingCount').textContent = borrowing.total || 0;
+                document.getElementById('overdueCount').textContent = overdue.total || 0;
+            } catch (e) {
+                console.error('获取统计数据失败:', e);
+            }
+        }
+
+        async function loadPopularBooks() {
+            try {
+                const result = await API.get('/stats/popular-books?top=10');
+                const tbody = document.getElementById('popularTableBody');
+                if (result.data && result.data.length > 0) {
+                    tbody.innerHTML = result.data.map(b => `
+                        <tr>
+                            <td><span class="rank-num rank-${b.rank}">${b.rank}</span></td>
+                            <td>${escapeHtml(b.title)}</td>
+                            <td>${escapeHtml(b.author)}</td>
+                            <td>${b.borrowCount} 次</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center">暂无借阅数据</td></tr>';
+                }
+            } catch (e) {
+                console.error('获取排行榜失败:', e);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理 - 图书管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>图书管理系统</h1>
+            <nav class="nav">
+                <a href="../index.html" class="nav-link">首页</a>
+                <a href="book-manage.html" class="nav-link active">图书管理</a>
+                <a href="reader-manage.html" class="nav-link">读者管理</a>
+                <a href="borrow-manage.html" class="nav-link">借阅管理</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <section class="card">
+            <div class="card-header">
+                <h2>图书管理</h2>
+                <button class="btn btn-primary" onclick="openModal('addBookModal')">添加图书</button>
+            </div>
+            <div class="card-body">
+                <div class="search-bar">
+                    <input type="text" id="searchKeyword" placeholder="搜索书名、作者、ISBN、分类...">
+                    <select id="searchCategory">
+                        <option value="">全部分类</option>
+                        <option value="计算机科学">计算机科学</option>
+                        <option value="编程语言">编程语言</option>
+                        <option value="数据结构">数据结构</option>
+                        <option value="算法">算法</option>
+                        <option value="网络">网络</option>
+                        <option value="数据库">数据库</option>
+                        <option value="软件工程">软件工程</option>
+                    </select>
+                    <select id="sortField">
+                        <option value="">默认排序</option>
+                        <option value="TITLE">按书名</option>
+                        <option value="AUTHOR">按作者</option>
+                        <option value="PUBLISH_DATE">按出版日期</option>
+                        <option value="AVAILABLE_COUNT">按可借数量</option>
+                    </select>
+                    <select id="sortAlgorithm">
+                        <option value="quick">快速排序</option>
+                        <option value="merge">归并排序</option>
+                        <option value="bubble">冒泡排序</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="searchBooks()">搜索</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ISBN</th>
+                                <th>书名</th>
+                                <th>作者</th>
+                                <th>分类</th>
+                                <th>库存（可借/总数）</th>
+                                <th>出版社</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookTableBody">
+                            <tr><td colspan="7" class="text-center">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 添加图书弹窗 -->
+        <div class="modal-overlay" id="addBookModal">
+            <div class="modal">
+                <h3>添加新图书</h3>
+                <form id="addBookForm" onsubmit="event.preventDefault(); addBook();">
+                    <div class="form-group">
+                        <label>ISBN *</label>
+                        <input type="text" id="addIsbn" placeholder="如：978-7-302-47974-0">
+                    </div>
+                    <div class="form-group">
+                        <label>书名 *</label>
+                        <input type="text" id="addTitle" placeholder="图书名称">
+                    </div>
+                    <div class="form-group">
+                        <label>作者 *</label>
+                        <input type="text" id="addAuthor" placeholder="作者姓名">
+                    </div>
+                    <div class="form-group">
+                        <label>分类</label>
+                        <input type="text" id="addCategory" placeholder="如：计算机科学/编程语言/Java">
+                    </div>
+                    <div class="form-group">
+                        <label>库存数量</label>
+                        <input type="number" id="addTotalCount" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>出版社</label>
+                        <input type="text" id="addPublisher" placeholder="出版社名称">
+                    </div>
+                    <div class="form-group">
+                        <label>出版日期</label>
+                        <input type="date" id="addPublishDate">
+                    </div>
+                    <div class="form-group">
+                        <label>简介</label>
+                        <textarea id="addDescription" placeholder="图书简介（可选）"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeModal('addBookModal')">取消</button>
+                        <button type="submit" class="btn btn-primary">确认添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 编辑图书弹窗 -->
+        <div class="modal-overlay" id="editBookModal">
+            <div class="modal">
+                <h3>编辑图书信息</h3>
+                <form onsubmit="event.preventDefault(); updateBook();">
+                    <input type="hidden" id="editIsbn">
+                    <div class="form-group"><label>书名 *</label><input type="text" id="editTitle"></div>
+                    <div class="form-group"><label>作者 *</label><input type="text" id="editAuthor"></div>
+                    <div class="form-group"><label>分类</label><input type="text" id="editCategory"></div>
+                    <div class="form-group"><label>总册数</label><input type="number" id="editTotalCount" min="1"></div>
+                    <div class="form-group"><label>出版社</label><input type="text" id="editPublisher"></div>
+                    <div class="form-group"><label>出版日期</label><input type="text" id="editPublishDate" placeholder="yyyy-MM-dd"></div>
+                    <div class="form-group"><label>简介</label><textarea id="editDescription"></textarea></div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeModal('editBookModal')">取消</button>
+                        <button type="submit" class="btn btn-primary">保存修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>图书管理系统 &copy; 2024 软件工程课程设计</p>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/book.js"></script>
+    <script>
+        const _origRender = renderBookTable;
+        renderBookTable = function(books) {
+            const tbody = document.getElementById('bookTableBody');
+            if (!books || books.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">暂无图书数据</td></tr>';
+                return;
+            }
+            tbody.innerHTML = books.map(b => `
+                <tr>
+                    <td>${escapeHtml(b.isbn)}</td>
+                    <td>${escapeHtml(b.title)}</td>
+                    <td>${escapeHtml(b.author)}</td>
+                    <td>${escapeHtml(b.category)}</td>
+                    <td><span style="color:${b.availableCount > 0 ? '#27ae60' : '#e74c3c'}">${b.availableCount}</span> / ${b.totalCount}</td>
+                    <td>${escapeHtml(b.publisher)}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="editBook('${escapeHtml(b.isbn)}')">编辑</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteBook('${escapeHtml(b.isbn)}')">删除</button>
+                    </td>
+                </tr>
+            `).join('');
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            searchBooks();
+            document.getElementById('searchKeyword').addEventListener('keypress', e => { if(e.key==='Enter') searchBooks(); });
+        });
+    </script>
+</body>
+</html>

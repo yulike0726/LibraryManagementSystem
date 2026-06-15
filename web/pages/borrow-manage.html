@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借阅管理 - 图书管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>图书管理系统</h1>
+            <nav class="nav">
+                <a href="../index.html" class="nav-link">首页</a>
+                <a href="book-manage.html" class="nav-link">图书管理</a>
+                <a href="reader-manage.html" class="nav-link">读者管理</a>
+                <a href="borrow-manage.html" class="nav-link active">借阅管理</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <section class="card">
+            <div class="card-header">
+                <h2>借书操作</h2>
+            </div>
+            <div class="card-body">
+                <form id="borrowForm" class="search-bar" onsubmit="event.preventDefault(); borrowBook();">
+                    <input type="text" id="borrowIsbn" placeholder="输入图书ISBN">
+                    <input type="text" id="borrowReaderId" placeholder="输入读者ID（学号/工号）">
+                    <button type="submit" class="btn btn-success">确认借书</button>
+                </form>
+                <p style="margin-top:8px;font-size:0.8em;color:#888;">
+                    说明：学生最多借5本，借期30天；教师最多借10本，借期60天。每本书最多续借1次。
+                </p>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <h2>借阅记录</h2>
+                <div class="search-bar" style="gap:8px;">
+                    <input type="text" id="filterReaderId" placeholder="按读者ID筛选" style="min-width:140px;">
+                    <select id="filterStatus">
+                        <option value="">全部状态</option>
+                        <option value="BORROWED">借出中</option>
+                        <option value="OVERDUE">已超期</option>
+                        <option value="RETURNED">已归还</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm" onclick="queryRecords()">查询</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>记录ID</th>
+                                <th>ISBN</th>
+                                <th>读者ID</th>
+                                <th>借书日期</th>
+                                <th>应还日期</th>
+                                <th>状态</th>
+                                <th>操作 / 归还日期</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordTableBody">
+                            <tr><td colspan="7" class="text-center">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>图书管理系统 &copy; 2024 软件工程课程设计</p>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/borrow.js"></script>
+</body>
+</html>
