@@ -18,13 +18,15 @@ public class Router implements HttpHandler {
     private final BookController bookController;
     private final ReaderController readerController;
     private final BorrowController borrowController;
+    private final LoginController loginController;
     private final String webRoot;
 
     public Router(BookController bookController, ReaderController readerController,
-                  BorrowController borrowController, String webRoot) {
+                  BorrowController borrowController, LoginController loginController, String webRoot) {
         this.bookController = bookController;
         this.readerController = readerController;
         this.borrowController = borrowController;
+        this.loginController = loginController;
         this.webRoot = webRoot;
     }
 
@@ -55,7 +57,8 @@ public class Router implements HttpHandler {
                 if (!apiPath.startsWith("books") && !apiPath.startsWith("readers")
                         && !apiPath.startsWith("borrow") && !apiPath.startsWith("return")
                         && !apiPath.startsWith("renew") && !apiPath.startsWith("stats")
-                        && !apiPath.startsWith("borrow-records")) {
+                        && !apiPath.startsWith("borrow-records") && !apiPath.equals("login")
+                        && !apiPath.equals("register")) {
                     exchange.sendResponseHeaders(404, 0);
                     exchange.close();
                     return;
@@ -112,6 +115,13 @@ public class Router implements HttpHandler {
                     response = borrowController.popularBooks(params);
                 } else if (apiPath.equals("stats/overdue") && "GET".equals(method)) {
                     response = borrowController.overdueRecords(params);
+
+                // ---- 登录注册 ----
+                } else if (apiPath.equals("login") && "POST".equals(method)) {
+                    response = loginController.login(body);
+                } else if (apiPath.equals("register") && "POST".equals(method)) {
+                    response = loginController.selfRegister(body);
+
                 } else {
                     response = "{\"success\":false,\"message\":\"未知API\"}";
                 }

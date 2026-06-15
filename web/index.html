@@ -10,40 +10,35 @@
     <header class="header">
         <div class="container">
             <h1>图书管理系统</h1>
-            <nav class="nav">
-                <a href="index.html" class="nav-link active">首页</a>
-                <a href="pages/book-manage.html" class="nav-link">图书管理</a>
-                <a href="pages/reader-manage.html" class="nav-link">读者管理</a>
-                <a href="pages/borrow-manage.html" class="nav-link">借阅管理</a>
-            </nav>
+            <nav class="nav"><!-- 动态加载 --></nav>
         </div>
     </header>
 
     <main class="container main-content">
-        <!-- 数据概览 -->
-        <section class="stats-row">
+        <!-- 管理员：全局统计；读者：个人统计 -->
+        <section class="stats-row" id="statsSection">
             <div class="stat-card">
                 <div class="stat-info">
-                    <div class="stat-number" id="totalBooks">-</div>
-                    <div class="stat-label">馆藏图书</div>
+                    <div class="stat-number" id="statNum1">-</div>
+                    <div class="stat-label" id="statLabel1">馆藏图书</div>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
-                    <div class="stat-number" id="totalReaders">-</div>
-                    <div class="stat-label">注册读者</div>
+                    <div class="stat-number" id="statNum2">-</div>
+                    <div class="stat-label" id="statLabel2">注册读者</div>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
-                    <div class="stat-number" id="borrowingCount">-</div>
-                    <div class="stat-label">借出中</div>
+                    <div class="stat-number" id="statNum3">-</div>
+                    <div class="stat-label" id="statLabel3">借出中</div>
                 </div>
             </div>
             <div class="stat-card overdue">
                 <div class="stat-info">
-                    <div class="stat-number" id="overdueCount">-</div>
-                    <div class="stat-label">超期未还</div>
+                    <div class="stat-number" id="statNum4">-</div>
+                    <div class="stat-label" id="statLabel4">超期未还</div>
                 </div>
             </div>
         </section>
@@ -85,20 +80,14 @@
 
         <!-- 图书列表 -->
         <section class="card">
-            <div class="card-header">
-                <h2>图书列表</h2>
-            </div>
+            <div class="card-header"><h2>图书列表</h2></div>
             <div class="card-body">
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>ISBN</th>
-                                <th>书名</th>
-                                <th>作者</th>
-                                <th>分类</th>
-                                <th>库存（可借/总数）</th>
-                                <th>出版社</th>
+                                <th>ISBN</th><th>书名</th><th>作者</th><th>分类</th>
+                                <th>库存（可借/总数）</th><th>出版社</th>
                             </tr>
                         </thead>
                         <tbody id="bookTableBody">
@@ -111,20 +100,11 @@
 
         <!-- 热门排行 -->
         <section class="card">
-            <div class="card-header">
-                <h2>热门图书排行榜（TOP 10）</h2>
-            </div>
+            <div class="card-header"><h2>热门图书排行榜（TOP 10）</h2></div>
             <div class="card-body">
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>排名</th>
-                                <th>书名</th>
-                                <th>作者</th>
-                                <th>借阅次数</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>排名</th><th>书名</th><th>作者</th><th>借阅次数</th></tr></thead>
                         <tbody id="popularTableBody">
                             <tr><td colspan="4" class="text-center">加载中...</td></tr>
                         </tbody>
@@ -134,31 +114,73 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <p>图书管理系统 &copy; 2024 软件工程课程设计</p>
-    </footer>
+    <footer class="footer"><p>图书管理系统 &copy; 2024 软件工程课程设计</p></footer>
 
+    <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
     <script src="js/book.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            loadStats();
+            initPage('home');
+            loadDashboard();
             searchBooks();
             loadPopularBooks();
         });
 
-        async function loadStats() {
-            try {
-                const books = await API.get('/books');
-                const readers = await API.get('/readers');
-                const borrowing = await API.get('/borrow-records?status=BORROWED');
-                const overdue = await API.get('/stats/overdue');
-                document.getElementById('totalBooks').textContent = books.total || 0;
-                document.getElementById('totalReaders').textContent = readers.total || 0;
-                document.getElementById('borrowingCount').textContent = borrowing.total || 0;
-                document.getElementById('overdueCount').textContent = overdue.total || 0;
-            } catch (e) {
-                console.error('获取统计数据失败:', e);
+        async function loadDashboard() {
+            const auth = getAuth();
+            if (auth.role === 'admin') {
+                // 管理员：全系统统计
+                try {
+                    const books = await API.get('/books');
+                    const readers = await API.get('/readers');
+                    const borrowing = await API.get('/borrow-records?status=BORROWED');
+                    const overdue = await API.get('/stats/overdue');
+                    document.getElementById('statNum1').textContent = books.total || 0;
+                    document.getElementById('statNum2').textContent = readers.total || 0;
+                    document.getElementById('statNum3').textContent = borrowing.total || 0;
+                    document.getElementById('statNum4').textContent = overdue.total || 0;
+                    document.getElementById('statLabel1').textContent = '馆藏图书';
+                    document.getElementById('statLabel2').textContent = '注册读者';
+                    document.getElementById('statLabel3').textContent = '借出中';
+                    document.getElementById('statLabel4').textContent = '超期未还';
+                } catch(e) { console.error(e); }
+            } else {
+                // 读者：个人借阅概览
+                const readerId = auth.readerId;
+                const statsRow = document.getElementById('statsSection');
+                statsRow.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number">${escapeHtml(auth.name)}</div>
+                            <div class="stat-label">欢迎你，${auth.readerType === 'TEACHER' ? '教师' : '同学'}</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number" id="myBorrowing">-</div>
+                            <div class="stat-label">当前借阅</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number" id="myLimit">${auth.maxBorrows}</div>
+                            <div class="stat-label">借阅上限</div>
+                        </div>
+                    </div>
+                    <div class="stat-card overdue">
+                        <div class="stat-info">
+                            <div class="stat-number" id="myOverdue">-</div>
+                            <div class="stat-label">超期未还</div>
+                        </div>
+                    </div>`;
+                try {
+                    const records = await API.get('/borrow-records?readerId=' + readerId);
+                    const borrowed = records.data?.filter(r => r.status === 'BORROWED' || r.status === 'OVERDUE') || [];
+                    const overdue = records.data?.filter(r => r.status === 'OVERDUE') || [];
+                    document.getElementById('myBorrowing').textContent = borrowed.length;
+                    document.getElementById('myOverdue').textContent = overdue.length;
+                } catch(e) { console.error(e); }
             }
         }
 
@@ -173,15 +195,14 @@
                             <td>${escapeHtml(b.title)}</td>
                             <td>${escapeHtml(b.author)}</td>
                             <td>${b.borrowCount} 次</td>
-                        </tr>
-                    `).join('');
+                        </tr>`).join('');
                 } else {
                     tbody.innerHTML = '<tr><td colspan="4" class="text-center">暂无借阅数据</td></tr>';
                 }
-            } catch (e) {
-                console.error('获取排行榜失败:', e);
-            }
+            } catch(e) { console.error(e); }
         }
+
+        document.getElementById('searchKeyword').addEventListener('keypress', e => { if(e.key==='Enter') searchBooks(); });
     </script>
 </body>
 </html>

@@ -28,10 +28,13 @@ public class ReaderService {
         return readerDao.findById(readerId);
     }
 
-    /** 注册读者 */
+    /** 注册读者（管理员添加时，若无密码则设置默认密码） */
     public boolean register(Reader reader) {
         if (reader.getReaderId() == null || reader.getReaderId().trim().isEmpty()) return false;
         if (readerDao.findById(reader.getReaderId()) != null) return false; // ID已存在
+        if (reader.getPassword() == null || reader.getPassword().trim().isEmpty()) {
+            reader.setPassword("123456"); // 默认密码
+        }
         readerDao.add(reader);
         return true;
     }

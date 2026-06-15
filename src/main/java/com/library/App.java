@@ -2,6 +2,7 @@ package com.library;
 
 import com.library.controller.BookController;
 import com.library.controller.BorrowController;
+import com.library.controller.LoginController;
 import com.library.controller.ReaderController;
 import com.library.controller.Router;
 import com.library.dao.BookDao;
@@ -53,10 +54,11 @@ public class App {
         BookController bookController = new BookController(bookService);
         ReaderController readerController = new ReaderController(readerService);
         BorrowController borrowController = new BorrowController(borrowService);
+        LoginController loginController = new LoginController(readerService);
 
         // 启动HTTP服务器
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/", new Router(bookController, readerController, borrowController, webRoot));
+        server.createContext("/", new Router(bookController, readerController, borrowController, loginController, webRoot));
         server.setExecutor(null); // 使用默认单线程执行器
         server.start();
 
@@ -114,13 +116,13 @@ public class App {
             System.out.println("[初始化] 添加示例读者数据...");
             readerService.register(new com.library.model.Reader(
                     "2024001", "张三", "计算机学院",
-                    com.library.model.Reader.ReaderType.STUDENT, "13800000001"));
+                    com.library.model.Reader.ReaderType.STUDENT, "13800000001", "123456"));
             readerService.register(new com.library.model.Reader(
                     "2024002", "李四", "软件学院",
-                    com.library.model.Reader.ReaderType.STUDENT, "13800000002"));
+                    com.library.model.Reader.ReaderType.STUDENT, "13800000002", "123456"));
             readerService.register(new com.library.model.Reader(
                     "T001", "王教授", "计算机学院",
-                    com.library.model.Reader.ReaderType.TEACHER, "13800000003"));
+                    com.library.model.Reader.ReaderType.TEACHER, "13800000003", "123456"));
             System.out.println("  已添加 " + readerService.getAllReaders().size() + " 位示例读者");
         }
     }

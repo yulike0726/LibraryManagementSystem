@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 图书管理系统</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f0f2f5;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            background: #fff;
+            width: 400px;
+            border: 1px solid #ddd;
+            padding: 40px;
+        }
+        .login-container h2 {
+            text-align: center; font-size: 1.3em; color: #2c3e50;
+            margin-bottom: 8px; font-weight: normal;
+        }
+        .login-container .subtitle {
+            text-align: center; color: #999; font-size: 0.85em; margin-bottom: 24px;
+        }
+        .tab-row { display: flex; margin-bottom: 24px; border-bottom: 2px solid #eee; }
+        .tab-btn {
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            font-size: 0.9em; border: none; background: none; color: #999;
+            border-bottom: 2px solid transparent; margin-bottom: -2px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .tab-btn.active { color: #2c3e50; border-bottom-color: #3498db; font-weight: bold; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 4px; font-size: 0.85em; color: #555; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 3px; font-size: 0.9em; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #3498db; }
+        .btn-submit {
+            width: 100%; padding: 10px; background: #3498db; color: #fff; border: none;
+            border-radius: 3px; font-size: 0.95em; cursor: pointer; font-family: inherit;
+            transition: background 0.2s; margin-top: 8px;
+        }
+        .btn-submit:hover { background: #2980b9; }
+        .error-msg { color: #e74c3c; font-size: 0.85em; text-align: center; margin-top: 12px; min-height: 20px; }
+        .info-msg { color: #27ae60; font-size: 0.85em; text-align: center; margin-top: 12px; min-height: 20px; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .hint { font-size: 0.8em; color: #999; margin-top: 20px; text-align: center; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>图书管理系统</h2>
+        <p class="subtitle">Library Management System</p>
+        <div class="tab-row">
+            <button class="tab-btn active" onclick="switchTab('reader')">读者登录</button>
+            <button class="tab-btn" onclick="switchTab('admin')">管理员登录</button>
+            <button class="tab-btn" onclick="switchTab('register')">注册</button>
+        </div>
+
+        <!-- 读者登录 -->
+        <div id="panel-reader" class="panel active">
+            <form onsubmit="event.preventDefault(); readerLogin();">
+                <div class="form-group">
+                    <label>学号 / 工号</label>
+                    <input type="text" id="readerId" placeholder="例如：2024001">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="readerPassword" placeholder="输入密码">
+                </div>
+                <button type="submit" class="btn-submit">登 录</button>
+                <p class="error-msg" id="readerError"></p>
+            </form>
+        </div>
+
+        <!-- 管理员登录 -->
+        <div id="panel-admin" class="panel">
+            <form onsubmit="event.preventDefault(); adminLogin();">
+                <div class="form-group">
+                    <label>管理员账号</label>
+                    <input type="text" id="adminUser" placeholder="admin">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="adminPassword" placeholder="管理员密码">
+                </div>
+                <button type="submit" class="btn-submit">登 录</button>
+                <p class="error-msg" id="adminError"></p>
+            </form>
+        </div>
+
+        <!-- 读者注册 -->
+        <div id="panel-register" class="panel">
+            <form onsubmit="event.preventDefault(); doRegister();">
+                <div class="form-group">
+                    <label>学号 / 工号 *</label>
+                    <input type="text" id="regReaderId" placeholder="例如：2024009">
+                </div>
+                <div class="form-group">
+                    <label>姓名 *</label>
+                    <input type="text" id="regName" placeholder="真实姓名">
+                </div>
+                <div class="form-group">
+                    <label>密码 *</label>
+                    <input type="password" id="regPassword" placeholder="设置登录密码">
+                </div>
+                <div class="form-group">
+                    <label>院系</label>
+                    <input type="text" id="regDept" placeholder="例如：计算机学院">
+                </div>
+                <div class="form-group">
+                    <label>身份</label>
+                    <select id="regType">
+                        <option value="STUDENT">学生（借5本/30天）</option>
+                        <option value="TEACHER">教师（借10本/60天）</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>联系电话</label>
+                    <input type="text" id="regPhone" placeholder="选填">
+                </div>
+                <button type="submit" class="btn-submit">注 册</button>
+                <p class="error-msg" id="regError"></p>
+                <p class="info-msg" id="regSuccess"></p>
+            </form>
+        </div>
+
+        <p class="hint">
+            演示账号：管理员 admin / admin123<br>
+            读者 2024001 / 123456
+        </p>
+    </div>
+
+    <script>
+        const API_B = window.location.origin + '/api';
+
+        function switchTab(name) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelector(`.tab-btn:nth-child(${name === 'reader' ? '1' : name === 'admin' ? '2' : '3'})`).classList.add('active');
+            document.getElementById('panel-' + name).classList.add('active');
+        }
+
+        async function readerLogin() {
+            const id = document.getElementById('readerId').value.trim();
+            const pw = document.getElementById('readerPassword').value;
+            if (!id || !pw) { document.getElementById('readerError').textContent = '请填写完整'; return; }
+            try {
+                const resp = await fetch(API_B + '/login', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: id, password: pw })
+                });
+                const r = await resp.json();
+                if (r.success) {
+                    sessionStorage.setItem('auth', JSON.stringify(r));
+                    window.location.href = '/index.html';
+                } else {
+                    document.getElementById('readerError').textContent = r.message;
+                }
+            } catch(e) {
+                document.getElementById('readerError').textContent = '网络错误';
+            }
+        }
+
+        async function adminLogin() {
+            const user = document.getElementById('adminUser').value.trim();
+            const pw = document.getElementById('adminPassword').value;
+            if (!user || !pw) { document.getElementById('adminError').textContent = '请填写完整'; return; }
+            try {
+                const resp = await fetch(API_B + '/login', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pw })
+                });
+                const r = await resp.json();
+                if (r.success) {
+                    sessionStorage.setItem('auth', JSON.stringify(r));
+                    window.location.href = '/index.html';
+                } else {
+                    document.getElementById('adminError').textContent = r.message;
+                }
+            } catch(e) {
+                document.getElementById('adminError').textContent = '网络错误';
+            }
+        }
+
+        async function doRegister() {
+            document.getElementById('regError').textContent = '';
+            document.getElementById('regSuccess').textContent = '';
+            const data = {
+                readerId: document.getElementById('regReaderId').value.trim(),
+                name: document.getElementById('regName').value.trim(),
+                password: document.getElementById('regPassword').value.trim(),
+                department: document.getElementById('regDept').value.trim(),
+                readerType: document.getElementById('regType').value,
+                phone: document.getElementById('regPhone').value.trim()
+            };
+            if (!data.readerId || !data.name || !data.password) {
+                document.getElementById('regError').textContent = '学号、姓名和密码为必填项';
+                return;
+            }
+            try {
+                const resp = await fetch(API_B + '/register', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const r = await resp.json();
+                if (r.success) {
+                    document.getElementById('regSuccess').textContent = '注册成功！请切换到"读者登录"标签登录';
+                    document.getElementById('regReaderId').value = '';
+                    document.getElementById('regName').value = '';
+                    document.getElementById('regPassword').value = '';
+                } else {
+                    document.getElementById('regError').textContent = r.message;
+                }
+            } catch(e) {
+                document.getElementById('regError').textContent = '网络错误';
+            }
+        }
+
+        // 回车登录
+        document.addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                const active = document.querySelector('.panel.active');
+                if (active.id === 'panel-admin') adminLogin();
+                else if (active.id === 'panel-register') doRegister();
+                else readerLogin();
+            }
+        });
+    </script>
+</body>
+</html>

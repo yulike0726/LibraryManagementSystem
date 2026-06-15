@@ -17,17 +17,19 @@ public class Reader {
     private String department;    // 院系/部门
     private ReaderType readerType; // 读者类型
     private String phone;         // 联系电话
+    private String password;      // 登录密码
     private int currentBorrows;   // 当前借阅数
 
     public Reader() {}
 
     public Reader(String readerId, String name, String department,
-                  ReaderType readerType, String phone) {
+                  ReaderType readerType, String phone, String password) {
         this.readerId = readerId;
         this.name = name;
         this.department = department;
         this.readerType = readerType;
         this.phone = phone;
+        this.password = password;
         this.currentBorrows = 0;
     }
 
@@ -62,6 +64,9 @@ public class Reader {
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
     public int getCurrentBorrows() { return currentBorrows; }
     public void setCurrentBorrows(int currentBorrows) { this.currentBorrows = currentBorrows; }

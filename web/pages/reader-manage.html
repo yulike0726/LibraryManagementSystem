@@ -10,12 +10,7 @@
     <header class="header">
         <div class="container">
             <h1>图书管理系统</h1>
-            <nav class="nav">
-                <a href="../index.html" class="nav-link">首页</a>
-                <a href="book-manage.html" class="nav-link">图书管理</a>
-                <a href="reader-manage.html" class="nav-link active">读者管理</a>
-                <a href="borrow-manage.html" class="nav-link">借阅管理</a>
-            </nav>
+            <nav class="nav"><!-- 动态 --></nav>
         </div>
     </header>
 
@@ -23,7 +18,9 @@
         <section class="card">
             <div class="card-header">
                 <h2>读者管理</h2>
-                <button class="btn btn-primary" onclick="openModal('regReaderModal')">注册读者</button>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn btn-primary" id="addReaderBtn" onclick="openModal('regReaderModal')">添加读者</button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="search-bar">
@@ -40,12 +37,8 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>读者ID</th>
-                                <th>姓名</th>
-                                <th>院系/部门</th>
-                                <th>类型</th>
-                                <th>当前借阅（已借/上限）</th>
-                                <th>操作</th>
+                                <th>读者ID</th><th>姓名</th><th>院系</th>
+                                <th>类型</th><th>借阅（已借/上限）</th><th>操作</th>
                             </tr>
                         </thead>
                         <tbody id="readerTableBody">
@@ -56,46 +49,39 @@
             </div>
         </section>
 
-        <!-- 注册读者弹窗 -->
+        <!-- 弹窗省略，同之前 -->
         <div class="modal-overlay" id="regReaderModal">
             <div class="modal">
-                <h3>注册新读者</h3>
-                <form id="regReaderForm" onsubmit="event.preventDefault(); registerReader();">
-                    <div class="form-group"><label>读者ID（学号/工号）*</label><input type="text" id="regReaderId" placeholder="如：2024001"></div>
-                    <div class="form-group"><label>姓名 *</label><input type="text" id="regName" placeholder="读者姓名"></div>
-                    <div class="form-group"><label>院系/部门</label><input type="text" id="regDepartment" placeholder="如：计算机学院"></div>
+                <h3>添加读者</h3>
+                <form onsubmit="event.preventDefault(); registerReader();">
+                    <div class="form-group"><label>读者ID *</label><input type="text" id="regReaderId"></div>
+                    <div class="form-group"><label>姓名 *</label><input type="text" id="regName"></div>
+                    <div class="form-group"><label>院系</label><input type="text" id="regDepartment"></div>
                     <div class="form-group">
-                        <label>读者类型</label>
+                        <label>类型</label>
                         <select id="regType">
-                            <option value="STUDENT">学生（最多借5本，借期30天）</option>
-                            <option value="TEACHER">教师（最多借10本，借期60天）</option>
+                            <option value="STUDENT">学生</option>
+                            <option value="TEACHER">教师</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>联系电话</label><input type="text" id="regPhone" placeholder="手机号码（可选）"></div>
+                    <div class="form-group"><label>电话</label><input type="text" id="regPhone"></div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-outline" onclick="closeModal('regReaderModal')">取消</button>
-                        <button type="submit" class="btn btn-primary">确认注册</button>
+                        <button type="submit" class="btn btn-primary">确认添加</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- 编辑读者弹窗 -->
         <div class="modal-overlay" id="editReaderModal">
             <div class="modal">
-                <h3>编辑读者信息</h3>
+                <h3>编辑读者</h3>
                 <form onsubmit="event.preventDefault(); updateReader();">
                     <input type="hidden" id="editReaderId">
                     <div class="form-group"><label>姓名 *</label><input type="text" id="editReaderName"></div>
-                    <div class="form-group"><label>院系/部门</label><input type="text" id="editReaderDept"></div>
-                    <div class="form-group">
-                        <label>读者类型</label>
-                        <select id="editReaderType">
-                            <option value="STUDENT">学生</option>
-                            <option value="TEACHER">教师</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>联系电话</label><input type="text" id="editReaderPhone"></div>
+                    <div class="form-group"><label>院系</label><input type="text" id="editReaderDept"></div>
+                    <div class="form-group"><label>类型</label><select id="editReaderType"><option value="STUDENT">学生</option><option value="TEACHER">教师</option></select></div>
+                    <div class="form-group"><label>电话</label><input type="text" id="editReaderPhone"></div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-outline" onclick="closeModal('editReaderModal')">取消</button>
                         <button type="submit" class="btn btn-primary">保存修改</button>
@@ -105,12 +91,19 @@
         </div>
     </main>
 
-    <footer class="footer">
-        <p>图书管理系统 &copy; 2024 软件工程课程设计</p>
-    </footer>
+    <footer class="footer"><p>图书管理系统 &copy; 2024 软件工程课程设计</p></footer>
 
+    <script src="../js/auth.js"></script>
     <script src="../js/api.js"></script>
     <script src="../js/reader.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', () => searchReaders());</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initPage('readers');
+            if (!isAdmin()) {
+                document.getElementById('addReaderBtn').style.display = 'none';
+            }
+            searchReaders();
+        });
+    </script>
 </body>
 </html>
