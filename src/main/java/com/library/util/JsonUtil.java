@@ -10,6 +10,15 @@ import java.util.*;
  */
 public class JsonUtil {
 
+    /** 去除 BOM 头和其他不可见前缀 */
+    private static String cleanJson(String raw) {
+        if (raw == null || raw.isEmpty()) return raw;
+        // 去除 UTF-8 BOM (U+FEFF)
+        if (raw.charAt(0) == '﻿') raw = raw.substring(1);
+        // 去除开头的空白字符
+        return raw.stripLeading();
+    }
+
     /**
      * 将对象序列化为JSON字符串
      */
@@ -30,8 +39,9 @@ public class JsonUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> T fromJson(String json, Class<T> clazz) {
-        if (json == null || json.trim().isEmpty()) return null;
-        JsonParser parser = new JsonParser(json.trim());
+        String cleaned = cleanJson(json);
+        if (cleaned == null || cleaned.isEmpty()) return null;
+        JsonParser parser = new JsonParser(cleaned);
         Object value = parser.parseValue();
         return convertValue(value, clazz);
     }
@@ -41,8 +51,9 @@ public class JsonUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> fromJsonList(String json, Class<T> clazz) {
-        if (json == null || json.trim().isEmpty()) return new ArrayList<>();
-        JsonParser parser = new JsonParser(json.trim());
+        String cleaned = cleanJson(json);
+        if (cleaned == null || cleaned.isEmpty()) return new ArrayList<>();
+        JsonParser parser = new JsonParser(cleaned);
         Object value = parser.parseValue();
         if (!(value instanceof List)) return new ArrayList<>();
         List<T> result = new ArrayList<>();
@@ -242,10 +253,12 @@ public class JsonUtil {
         Number parseNumber() {
             int start = pos;
             while (pos < json.length() && (Character.isDigit(json.charAt(pos))
-                    || json.charAt(pos) == '.' || json.charAt(pos) == '-' || json.charAt(pos) == 'e')) {
+                    || json.charAt(pos) == '.' || json.charAt(pos) == '-' || json.charAt(pos) == 'e'
+                    || json.charAt(pos) == 'E' || json.charAt(pos) == '+')) {
                 pos++;
             }
             String numStr = json.substring(start, pos);
+            if (numStr.isEmpty()) throw new RuntimeException("Unexpected character near: " + json.substring(Math.max(0, pos - 5), Math.min(json.length(), pos + 5)));
             if (numStr.contains(".")) return Double.parseDouble(numStr);
             return Integer.parseInt(numStr);
         }

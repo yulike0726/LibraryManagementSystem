@@ -2,7 +2,7 @@
  * API 调用封装
  * 统一处理与后端Java服务器的HTTP通信
  */
-const API_BASE = 'http://localhost:8080/api';
+const API_BASE = window.location.origin + '/api';
 
 const API = {
     /**

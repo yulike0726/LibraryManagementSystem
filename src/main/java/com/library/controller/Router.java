@@ -49,7 +49,7 @@ public class Router implements HttpHandler {
 
             // ========== API 路由 ==========
             if (path.startsWith("/api/")) {
-                String apiPath = path.substring(4); // remove /api
+                String apiPath = path.substring(5); // remove "/api/"
 
                 // 静态文件
                 if (!apiPath.startsWith("books") && !apiPath.startsWith("readers")
